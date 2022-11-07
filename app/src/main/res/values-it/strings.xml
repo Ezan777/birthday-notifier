@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_name">Promemoria compleanni</string>
+    <string name="channel_description">Utilizzato da Birthday Notifier per inviare i promemoria dei compleanni</string>
+    <string name="input_placeholder">Calendario compleanni</string>
+    <string name="set_calendar_button">Imposta</string>
+    <string name="chosen_calendar_title">In uso:</string>
+    <string name="calendar_not_found">Calendario non trovato</string>
+</resources>

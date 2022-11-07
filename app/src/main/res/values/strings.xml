@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name" translatable="false">Birthday Notifier</string>
+    <string name="channel_name">Birthday reminders</string>
+    <string name="channel_description">Used by Birthday Notifier to send notifications about birthday events</string>
+    <string name="input_placeholder">Birthday calendar</string>
+    <string name="set_calendar_button">SET</string>
+    <string name="chosen_calendar_title">Currently used:</string>
+    <string name="calendar_name_key" translatable="false">calendarName</string>
+    <string name="default_preferences" translatable="false">birthdayNotifierPref</string>
+    <string name="calendar_not_found">Calendar not found</string>
+    <string name="sent_notifications_key" translatable="false">sentNotifications</string>
+    <string name="last_sent_key" translatable="false">lastSent</string>
+</resources>
