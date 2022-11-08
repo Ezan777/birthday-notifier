@@ -45,10 +45,6 @@ class MainActivity : AppCompatActivity() {
             Context.MODE_PRIVATE
         )
 
-        Log.d("setNoti", settings.getStringSet(
-            applicationContext.getString(R.string.sent_notifications_key),
-            mutableSetOf<String>()).toString())
-
         var calendarName: String? =
             settings.getString(getString(R.string.calendar_name_key), null).toString()
 
