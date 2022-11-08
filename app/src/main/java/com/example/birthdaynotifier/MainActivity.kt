@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.PopupMenu
 import androidx.core.app.ActivityCompat
@@ -73,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             popupMenu.menu.close()
 
             val notifierRequest =
-                PeriodicWorkRequestBuilder<NotifierWorker>(15, TimeUnit.MINUTES).setInputData(
+                PeriodicWorkRequestBuilder<NotifierWorker>(2, TimeUnit.HOURS).setInputData(
                     workDataOf(
                         getString(R.string.calendar_name_key) to calendarName,
                     )
