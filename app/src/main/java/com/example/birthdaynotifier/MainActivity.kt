@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 currentCalendarName.text = calendarName
 
                 val notifierRequest =
-                    PeriodicWorkRequestBuilder<NotifierWorker>(1, TimeUnit.HOURS).setInputData(
+                    PeriodicWorkRequestBuilder<NotifierWorker>(15, TimeUnit.MINUTES).setInputData(
                         workDataOf(
                             getString(R.string.calendar_name_key) to calendarName,
                         )

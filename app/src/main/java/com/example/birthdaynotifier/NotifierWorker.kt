@@ -2,15 +2,14 @@ package com.example.birthdaynotifier
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
-import android.widget.Toast
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import java.time.LocalDate
 
 class NotifierWorker(appContext: Context, workerParams: WorkerParameters) :
     Worker(appContext, workerParams) {
-    private val settings: SharedPreferences = applicationContext.getSharedPreferences(
+
+    private val settings: SharedPreferences = appContext.getSharedPreferences(
         applicationContext.getString(R.string.default_preferences),
         Context.MODE_PRIVATE
     )
