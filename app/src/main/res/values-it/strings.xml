@@ -6,4 +6,5 @@
     <string name="set_calendar_button">Imposta</string>
     <string name="chosen_calendar_title">In uso:</string>
     <string name="calendar_not_found">Calendario non trovato</string>
+    <string name="calendar_list_label">Scegli il calendario dei compleanni</string>
 </resources>

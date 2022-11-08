@@ -6,55 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/calendarNameInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:hint="@string/input_placeholder"
-        android:inputType="text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:imeOptions="actionDone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/setCalendarButton"
-        app:layout_constraintHorizontal_bias="0.615"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39" />
-
     <Button
-        android:id="@+id/setCalendarButton"
+        android:id="@+id/chooseCalendarButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/set_calendar_button"
+        android:text="@string/calendar_list_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.389" />
-
-    <TextView
-        android:id="@+id/settedCalendarTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/chosen_calendar_title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.573"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.539" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/currentCalendarName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settedCalendarTitle"
-        app:layout_constraintVertical_bias="0.058" />
 </androidx.constraintlayout.widget.ConstraintLayout>
