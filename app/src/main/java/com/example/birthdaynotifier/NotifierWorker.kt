@@ -3,14 +3,14 @@ package com.example.birthdaynotifier
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import android.widget.Toast
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import java.time.LocalDate
 
 class NotifierWorker(appContext: Context, workerParams: WorkerParameters) :
     Worker(appContext, workerParams) {
-    private val settings: SharedPreferences = applicationContext.getSharedPreferences(
+
+    private val settings: SharedPreferences = appContext.getSharedPreferences(
         applicationContext.getString(R.string.default_preferences),
         Context.MODE_PRIVATE
     )
@@ -22,6 +22,10 @@ class NotifierWorker(appContext: Context, workerParams: WorkerParameters) :
                 applicationContext.getString(R.string.sent_notifications_key),
                 mutableSetOf<String>()
             ) as MutableSet<String>
+        val tempSentNotifications = mutableSetOf<String>()
+        for(notification in sentNotifications) {
+            tempSentNotifications.add(notification)
+        }
 
         if (calendarId != null) {
             // The calendar exists
@@ -31,12 +35,12 @@ class NotifierWorker(appContext: Context, workerParams: WorkerParameters) :
                 for (birthday in birthdays) {
                     if (birthday.title !in sentNotifications) {
                         BirthdayNotification.sendBirthdayNotification(context, birthday)
-                        sentNotifications.add(birthday.title)
+                        tempSentNotifications.add(birthday.title)
                     }
                 }
                 settings.edit().putStringSet(
                     applicationContext.getString(R.string.sent_notifications_key),
-                    sentNotifications
+                    tempSentNotifications
                 ).apply()
             }
         } else {
@@ -52,7 +56,7 @@ class NotifierWorker(appContext: Context, workerParams: WorkerParameters) :
 
             if (settings.getString(
                     applicationContext.getString(R.string.last_sent_key),
-                    ""
+                    null
                 ) != LocalDate.now().toString()
             ) {
                 settings.edit().putString(

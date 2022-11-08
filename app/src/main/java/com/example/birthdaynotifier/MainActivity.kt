@@ -4,11 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.PopupMenu
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
@@ -22,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         BirthdayNotification.createBirthdayNotificationChannel(this)
 
         val permissions = arrayOf(
@@ -30,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         for (permission in permissions) {
-            var hasPermission: Boolean = true
+            var hasPermission = true
             hasPermission = hasPermission && ContextCompat.checkSelfPermission(
                 this,
                 permission
@@ -46,44 +44,47 @@ class MainActivity : AppCompatActivity() {
             Context.MODE_PRIVATE
         )
 
-        Log.d("setNoti", settings.getStringSet(
-            applicationContext.getString(R.string.sent_notifications_key),
-            mutableSetOf<String>()).toString())
+        var calendarName: String? =
+            settings.getString(getString(R.string.calendar_name_key), null).toString()
 
-        var calendarName: String =
-            settings.getString(getString(R.string.calendar_name_key), "").toString()
+        val chooseCalendarButton: Button = findViewById(R.id.chooseCalendarButton)
+        chooseCalendarButton.text = calendarName ?: getString(R.string.calendar_list_label)
 
-        val calendarNameInput: EditText = findViewById(R.id.calendarNameInput)
-        val setCalendarButton: Button = findViewById(R.id.setCalendarButton)
-        val currentCalendarName: TextView = findViewById(R.id.currentCalendarName)
-        currentCalendarName.text = calendarName
+        val popupMenu = PopupMenu(this, chooseCalendarButton)
 
-        setCalendarButton.setOnClickListener {
-            calendarName = calendarNameInput.text.toString().trim()
-            calendarNameInput.setText("")
+        val calendarsDetails= CalendarService.getAllCalendars(this)
 
-            if (CalendarService.getCalendarIdByName(this, calendarName) != null) {
-                currentCalendarName.text = calendarName
-
-                val notifierRequest =
-                    PeriodicWorkRequestBuilder<NotifierWorker>(1, TimeUnit.HOURS).setInputData(
-                        workDataOf(
-                            getString(R.string.calendar_name_key) to calendarName,
-                        )
-                    ).build()
-
-                WorkManager.getInstance(this).enqueue(notifierRequest)
-
-                settings.edit()
-                    .putString(getString(R.string.calendar_name_key), calendarName.toString())
-                    .apply()
-            } else {
-                Toast.makeText(
-                    applicationContext,
-                    getString(R.string.calendar_not_found),
-                    Toast.LENGTH_SHORT
-                ).show()
+        if(calendarsDetails.isNotEmpty()) {
+            for(calendar in calendarsDetails) {
+                popupMenu.menu.add(calendar["displayName"])
             }
+        }
+
+        chooseCalendarButton.setOnClickListener {
+            popupMenu.show()
+        }
+
+        popupMenu.setOnMenuItemClickListener {
+            WorkManager.getInstance(this).cancelAllWork()
+
+            calendarName = it.title.toString()
+            chooseCalendarButton.text = calendarName ?: getString(R.string.calendar_list_label)
+            popupMenu.menu.close()
+
+            val notifierRequest =
+                PeriodicWorkRequestBuilder<NotifierWorker>(2, TimeUnit.HOURS).setInputData(
+                    workDataOf(
+                        getString(R.string.calendar_name_key) to calendarName,
+                    )
+                ).build()
+
+            WorkManager.getInstance(this).enqueue(notifierRequest)
+
+            settings.edit()
+                .putString(getString(R.string.calendar_name_key), calendarName.toString())
+                .apply()
+
+            true
         }
     }
 }

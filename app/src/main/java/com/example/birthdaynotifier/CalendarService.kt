@@ -9,6 +9,34 @@ import java.time.ZoneId
 
 class CalendarService {
     companion object Functions {
+
+        fun getAllCalendars(context: Context): ArrayList<Map<String, String>> {
+            val calendarUri = CalendarContract.Calendars.CONTENT_URI
+            val fields: Array<String> = arrayOf(
+                CalendarContract.Calendars._ID,
+                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME
+            )
+
+            val contentResolver = context.contentResolver
+            try {
+                val cursor: Cursor? = contentResolver.query(calendarUri, fields, null, null, null)
+                if(cursor != null) {
+                    if(cursor.count > 0) {
+                        val calendarsDetails = ArrayList<Map<String, String>>()
+                        while(cursor.moveToNext()) {
+                            calendarsDetails.add(mapOf("id" to cursor.getString(0), "displayName" to cursor.getString(1)))
+                        }
+                        cursor.close()
+                        return calendarsDetails
+                    }
+                }
+            } catch (exception: Exception) {
+                Log.d("exception", exception.toString())
+            }
+
+            return ArrayList<Map<String, String>>()
+        }
+
         fun getCalendarIdByName(context: Context, calendarName: String): String? {
             val calendarUri = CalendarContract.Calendars.CONTENT_URI
             val fields: Array<String> = arrayOf(
